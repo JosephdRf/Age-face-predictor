@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(brew list *)",
+      "Bash(brew search *)",
+      "Bash(/opt/anaconda3/bin/conda init *)"
+    ]
+  }
+}
