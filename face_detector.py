@@ -49,15 +49,16 @@ def euclidean(p1, p2):
 
 
 warnings.filterwarnings("ignore", category=UserWarning)
+CAMERA_INDEX = 1
 
 # MediaPipe Face Detection
 mp_face = mp.solutions.face_detection
 face_detection = mp_face.FaceDetection(model_selection=0, min_detection_confidence=0.7)
 
-cap = cv2.VideoCapture(0, cv2.CAP_AVFOUNDATION)
+cap = cv2.VideoCapture(CAMERA_INDEX, cv2.CAP_AVFOUNDATION)
 
 if not cap.isOpened():
-    print("❌ Impossible d'accéder à la caméra")
+    print(f"❌ Impossible d'accéder à la caméra d'index {CAMERA_INDEX}")
     exit()
 
 
@@ -70,8 +71,10 @@ FACE_TIMEOUT = 1.0  # secondes
 while True:
     ret, frame = cap.read()
     if not ret:
+        print(f"❌ La caméra d'index {CAMERA_INDEX} n'a pas fourni d'image")
         break
 
+    current_time = time.time()
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     results = face_detection.process(frame_rgb)
 
@@ -97,8 +100,6 @@ while True:
             # Face update
             cx = x + bw // 2
             cy = y + bh // 2
-            current_time = time.time()
-
             matched_id = None
             min_dist = float("inf")
 
